@@ -24,20 +24,30 @@ app.all('/kb/*', async (c) => {
   const sourceUrl = new URL(c.req.url)
   const targetUrl = new URL(`${baseUrl}/v1${sourceUrl.pathname.replace(/^\/v1/, '')}`)
   targetUrl.search = sourceUrl.search
+  const headers = new Headers()
+  const contentType = c.req.header('Content-Type')
+  if (contentType) {
+    headers.set('Content-Type', contentType)
+  }
 
   const response = await fetch(targetUrl, {
     method: c.req.method,
-    headers: {
-      'Content-Type': c.req.header('Content-Type') ?? 'application/json',
-    },
+    headers,
     body: ['GET', 'HEAD'].includes(c.req.method) ? undefined : await c.req.raw.clone().arrayBuffer(),
   })
+  const responseHeaders = new Headers()
+  const responseContentType = response.headers.get('Content-Type')
+  const contentDisposition = response.headers.get('Content-Disposition')
+  if (responseContentType) {
+    responseHeaders.set('Content-Type', responseContentType)
+  }
+  if (contentDisposition) {
+    responseHeaders.set('Content-Disposition', contentDisposition)
+  }
 
   return new Response(response.body, {
     status: response.status,
-    headers: {
-      'Content-Type': response.headers.get('Content-Type') ?? 'application/json',
-    },
+    headers: responseHeaders,
   })
 })
 
