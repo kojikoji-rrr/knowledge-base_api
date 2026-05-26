@@ -4,3 +4,4 @@ compatibility_date = "2026-05-23"
 
 [vars]
 APP_ENV = "production"
+LOCAL_API_BASE_URL = "https://local-api.kojikox.com"
