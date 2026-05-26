@@ -4,4 +4,5 @@ compatibility_date = "2026-05-23"
 
 [vars]
 APP_ENV = "production"
+APP_ALLOWED_ORIGIN = "https://knowledge-base.kojica.jp"
 LOCAL_API_BASE_URL = "https://local-api.kojica.jp"

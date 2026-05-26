@@ -3,14 +3,16 @@ import { cors } from 'hono/cors'
 
 type Bindings = {
   APP_ENV: string
+  APP_ALLOWED_ORIGIN: string
   LOCAL_API_BASE_URL: string
 }
 
 const app = new Hono<{ Bindings: Bindings }>().basePath('/v1')
 
 app.use('/*', async (c, next) => {
+  const allowedOrigin = c.env.APP_ALLOWED_ORIGIN || '*'
   const corsMiddleware = cors({
-    origin: c.env.APP_ENV === 'production' ? 'https://knowledge-base.kojica.jp' : '*',
+    origin: c.env.APP_ENV === 'production' ? allowedOrigin : '*',
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type'],
   })
