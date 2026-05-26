@@ -10,7 +10,7 @@ const app = new Hono<{ Bindings: Bindings }>().basePath('/v1')
 
 app.use('/*', async (c, next) => {
   const corsMiddleware = cors({
-    origin: c.env.APP_ENV === 'production' ? 'https://knowledge-base.kojikox.com' : '*',
+    origin: c.env.APP_ENV === 'production' ? 'https://knowledge-base.kojica.jp' : '*',
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type'],
   })
